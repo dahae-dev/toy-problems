@@ -39,15 +39,46 @@
 // It will transform an array of numbers into an array of valid objects.
 var testingTransform = function(array) {
   var transform = [];
-  
-  for (var i = 0; i < array.length; i++)
-    transform.push({value: array[i], i: i});
+
+  for (var i = 0; i < array.length; i++) transform.push({ value: array[i], i: i });
 
   return transform;
 };
 
-var insertionSort = function(array
-) {
+var insertionSort = function(array, comparator) {
   // Your code goes here. Feel free to add helper functions if needed.
+
+  // for(var i = 1; i < array.length; i++) {
+  //   var val = array[i];
+  //   var hole = i;
+  //
+  //   while(hole > 0  &&  val.value < array[hole - 1].value) {
+  //     array[hole] = array[hole - 1];
+  //     hole -= 1;
+  //   }
+  //
+  //   array[hole] = val;
+  // }
+
+  // EXTRA CREDIT:
+  if (!comparator)
+    // neglect error checking for brevity
+    comparator = function(a, b) {
+      // We only need to know if a is _less than_ b
+      return a.value < b.value ? -1 : 0;
+    };
+
+  for (var i = 1; i < array.length; i++) {
+    var val = array[i];
+    var hole = i;
+
+    while (hole > 0 && comparator(val, array[hole - 1]) < 0) {
+      array[hole] = array[hole - 1];
+      hole -= 1;
+    }
+
+    array[hole] = val;
+  }
+
   return array;
 };

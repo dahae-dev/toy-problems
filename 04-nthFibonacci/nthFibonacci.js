@@ -20,9 +20,25 @@
  *
  */
 
-var nthFibonacci = function (n) {
+var nthFibonacci = function(n) {
   // TODO: implement me!
+  var fibs = [0, 1];
+  for (; n > 1; n--) {
+    fibs.push(fibs.shift() + fibs[0]);
+  }
+  return fibs[n];
+
+  // *** iterative ***
+  var fibArr = [0, 1];
+  for (var i = 2; i <= n; i++) {
+    fibArr[i] = fibArr[i - 2] + fibArr[i - 1];
+  }
+  return fibArr[n];
+
+  // *** recursive  ***
+  // if(n <= 1) {
+  //   return n;
+  // } else {
+  //   return nthFibonacci(n - 2) + nthFibonacci(n - 1);
+  // }
 };
-
-
-

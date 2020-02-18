@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /* Implement the function asyncMap:
  *
@@ -38,6 +38,21 @@
  *
  */
 
+var asyncMap = function(tasks, callback) {
+  /* START SOLUTION */
+  var resultsArray = [];
+  var resultsCount = 0;
 
-var asyncMap = function(tasks, callback){
+  for (var i = 0; i < tasks.length; i++) {
+    (function(i) {
+      tasks[i](function(val) {
+        resultsArray[i] = val;
+        resultsCount++;
+        if (resultsCount === tasks.length) {
+          callback(resultsArray);
+        }
+      });
+    })(i);
+  }
+  /* END SOLUTION */
 };

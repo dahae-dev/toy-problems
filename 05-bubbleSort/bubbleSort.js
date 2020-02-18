@@ -22,20 +22,64 @@
  * Moar credits: Do you need to consider every element every time you iterate
  * through the array? Make it happen, boss. Again: Has the time complexity of
  * your algorithm changed?
-*/
+ */
 
 /*
  * Example usage:
  * bubbleSort([2, 1, 3]); // yields [1, 2, 3]
  *
-*/
+ */
 
 // Introduce i into the global scope so we can test function efficiency
 var i;
 
 // Feel free to add helper functions if needed.
 
+// var bubbleSort = function(array) {
+//   // Your code here.
+//   if (!Array.isArray(array)) {
+//     throw new TypeError("bubbleSort accepts only arrays");
+//   }
+
+//   var len = array.length;
+
+//   for (var i = 0; i < len; i++) {
+//     var swaps = 0;
+
+//     // Do j < len - 1 - i iterations so we don't consider the final (sorted)
+//     // element in the array in future iterations
+//     for (var j = 0; j < len - 1 - i; j++) {
+//       if (array[j] > array[j + 1]) {
+//         swaps++;
+//         swap(j, j + 1, array);
+//       }
+//     }
+
+//     // If no swaps were done during this iteration, then the array is sorted
+//     // and we can bail out
+//     if (!swaps) {
+//       break;
+//     }
+//   }
+
+//   return array;
+// };
 
 var bubbleSort = function(array) {
   // Your code here.
+  var count = array.length;
+  var temp = 0;
+
+  while (count > 0) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] > array[i + 1]) {
+        temp = array[i];
+        array[i] = array[i + 1];
+        array[i + 1] = temp;
+      }
+    }
+    count--;
+  }
+
+  return array;
 };

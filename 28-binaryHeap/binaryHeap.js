@@ -10,7 +10,7 @@
  * parent of the 3rd and 4th nodes, and the 2nd node will be the parent of the 5th and
  * 6th nodes. In a specific kind of binary heap, the binary min heap, every node is
  * less than its immediate children:
- * 
+ *
  *          0
  *     1         2
  *   3   4     5   6
@@ -49,7 +49,6 @@
  * https://www.cs.usfca.edu/~galles/visualization/Heap.html
  */
 
-
 // Below is a binary heap whose nodes are integers. Its storage is an array and
 // its `getRoot` method is already written. `BinaryHeap`'s `this._compare` method is hard-coded to return
 // whether the fist element passed into it is less than the second. Use it when comparing nodes.
@@ -66,22 +65,63 @@
 // Extra extra credit: Implement `heapSort`. `heapSort` takes an array, constructs it into a `BinaryHeap`
 // and then iteratively returns the root of the `BinaryHeap` until its empty, thus returning a sorted array.
 
-
-function BinaryHeap () {
+function BinaryHeap() {
   this._heap = [];
-  // this compare function will result in a minHeap, use it to make comparisons between nodes in your solution
-  this._compare = function (i, j) { return i < j };
+  this._compare = function(i, j) {
+    return i < j;
+  };
 }
 
-// This function works just fine and shouldn't be modified
-BinaryHeap.prototype.getRoot = function () {
-  return this._heap[0];
+BinaryHeap.prototype.insert = function(node) {
+  // add node to end of heap
+  this._heap.push(node);
+  // locate node’s parent
+  var index = this._heap.length - 1;
+  var parentIndex = Math.floor((index - 1) / 2);
+  // while node has parent and is less than parent
+  while (index > 0 && this._compare(this._heap[index], this._heap[parentIndex])) {
+    // swap node and parent
+    swapNodesAt(index, parentIndex, this);
+    index = parentIndex;
+    parentIndex = Math.floor((index - 1) / 2);
+  }
+};
+
+BinaryHeap.prototype.removeRoot = function() {
+  // swap root node with last node
+  swapNodesAt(this._heap.length - 1, 0, this);
+  // remove last node and store it to be returned later
+  var originalRoot = this._heap.pop();
+  var temporaryRootIndex = 0;
+  // compare children nodes to get the index of the lesser of them
+  var lesserChildIndex = getLesserChildIndex(temporaryRootIndex, this);
+  // while there are children nodes and the lesser of them is less than the new root
+  while (lesserChildIndex && this._compare(this._heap[lesserChildIndex], this._heap[temporaryRootIndex])) {
+    // swap the root node with the lesser of its children
+    swapNodesAt(lesserChildIndex, temporaryRootIndex, this);
+    temporaryRootIndex = lesserChildIndex;
+    lesserChildIndex = getLesserChildIndex(temporaryRootIndex, this);
+  }
+  // return original root node we stored earlier
+  return originalRoot;
+};
+
+function swapNodesAt(index, parentIndex, binaryHeap) {
+  var heap = binaryHeap._heap;
+
+  var temp = heap[index];
+  heap[index] = heap[parentIndex];
+  heap[parentIndex] = temp;
 }
 
-BinaryHeap.prototype.insert = function (value) {
-  // TODO: Your code here
-}
-
-BinaryHeap.prototype.removeRoot = function () {
-  // TODO: Your code here
+function getLesserChildIndex(parentIndex, binaryHeap) {
+  var childIndices = [parentIndex * 2 + 1, parentIndex * 2 + 2].filter(function(index) {
+    return index < binaryHeap._heap.length;
+  });
+  // compare children nodes to get the index of the lesser of them
+  if (binaryHeap._compare(binaryHeap._heap[childIndices[0]], binaryHeap._heap[childIndices[1]])) {
+    return childIndices[0];
+  } else {
+    return childIndices[1];
+  }
 }
