@@ -19,7 +19,7 @@
   "dependencies": {
     "aws-sdk": "^2.88.0",
     "axios": "^0.16.2",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "jsdom": "^11.1.0",
     "mocha": "^3.4.2",
     "mocha-junit-reporter": "^1.13.0",
